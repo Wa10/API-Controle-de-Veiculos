@@ -25,9 +25,8 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String salvar(@RequestBody @Valid Usuario usuario){
-        String resposta = usuarioService.salvar(usuario);
-        return resposta;
+    public void salvar(@RequestBody @Valid Usuario usuario){
+        usuarioService.salvar(usuario);
     }
 
     @DeleteMapping("/{id}")

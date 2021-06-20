@@ -19,9 +19,8 @@ public class UsuarioService {
     }
 
 
-    public String salvar(Usuario usuario) {
-        Usuario usuarioCadastrado = usuarioRepository.save(usuario);
-        return "Usuario cadastrado com o id " + usuarioCadastrado.getId();
+    public void salvar(Usuario usuario) {
+        usuarioRepository.save(usuario);
     }
 
     public List<Usuario> procurarTodos() {
@@ -41,8 +40,17 @@ public class UsuarioService {
     public void atualizar(Usuario usuario, Long id){
         usuarioRepository.findById(id)
                 .map(usuarioEncontrado -> {
+
                     usuarioEncontrado.setCpf(usuario.getCpf());
-                    usuarioEncontrado.setNome(usuario.getNome());
+                    usuarioEncontrado.setEmail(usuario.getEmail());
+
+                    if(usuario.getDataNascimento() != null)
+                    usuarioEncontrado.setDataNascimento(usuario.getDataNascimento());
+
+                    if(usuario.getNome() != null){
+                        usuarioEncontrado.setNome(usuario.getNome());
+                    }
+
                     return usuarioRepository.save(usuarioEncontrado);
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente com o id " + id + " não encontrado!"));

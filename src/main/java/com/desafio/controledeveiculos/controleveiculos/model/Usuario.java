@@ -1,12 +1,14 @@
 package com.desafio.controledeveiculos.controleveiculos.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -21,12 +23,16 @@ public class Usuario {
     @Email(message = "email deve ser valido")
     private String email;
 
-    @CPF
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     @Column(name = "data_nascimento")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Veiculo> veiculos;
+
 
     public Long getId() {
         return id;
