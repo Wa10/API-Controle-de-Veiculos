@@ -6,11 +6,14 @@ import com.desafio.controledeveiculos.controleveiculos.dto.fipe.AnoDTO;
 import com.desafio.controledeveiculos.controleveiculos.dto.fipe.DadosCompletosComValorDTO;
 import com.desafio.controledeveiculos.controleveiculos.dto.fipe.MarcaDTO;
 import com.desafio.controledeveiculos.controleveiculos.dto.fipe.ModeloDTO;
+import com.desafio.controledeveiculos.controleveiculos.model.Usuario;
 import com.desafio.controledeveiculos.controleveiculos.model.Veiculo;
 import com.desafio.controledeveiculos.controleveiculos.repository.UsuarioRepository;
 import com.desafio.controledeveiculos.controleveiculos.repository.VeiculoRepository;
 import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.*;
@@ -41,8 +44,17 @@ public class VeiculoService {
 
         Long idUsuario = veiculoDTO.getIdUsuario();
 
+
+
         if(idUsuario != null){
-            veiculo.setIdUsuario(idUsuario);
+            Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+            if(usuario.isPresent()) {
+                veiculo.setIdUsuario(idUsuario);
+            } else{
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuario não cadastrado"
+                );
+            }
         }
 
         veiculoRepository.save(veiculo);
@@ -67,7 +79,7 @@ public class VeiculoService {
         idMarca = marca.get().getCodigo();
 
         List<ModeloDTO> modelosPorMarca = listarDadosFipe.listarModelosPorMarca(idMarca).getModelos();
-        List<AnoDTO> anosPorModeloEMarca = listarDadosFipe.listarModelosPorMarca(idMarca).getAnos();
+
 
         Optional<ModeloDTO> modeloPorMarca = modelosPorMarca
                 .stream()
@@ -75,6 +87,8 @@ public class VeiculoService {
                 .findFirst();
 
         idModelo = Integer.toString(modeloPorMarca.get().getCodigo());
+
+        List<AnoDTO> anosPorModeloEMarca = listarDadosFipe.listarVeiculosPorAnosPorModeloEMarca(idMarca, idModelo);
 
         Optional<AnoDTO> anoPorModeloEMarca = anosPorModeloEMarca
                 .stream()
