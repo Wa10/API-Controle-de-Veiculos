@@ -7,8 +7,8 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Usuario {
@@ -17,6 +17,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "nome está null")
+    @NotEmpty(message = "nome vazio")
     private String nome;
 
     @NotEmpty(message = "email obrigatório")
@@ -30,9 +32,18 @@ public class Usuario {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Veiculo> veiculos;
+    public Usuario() {
+    }
 
+    public Usuario(Long id, String nome,
+                   @NotEmpty(message = "email obrigatório") @Email(message = "email deve ser valido") String email,
+                   @CPF(message = "CPF inválido") String cpf, LocalDate dataNascimento) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+    }
 
     public Long getId() {
         return id;

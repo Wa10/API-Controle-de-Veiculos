@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -20,7 +21,31 @@ public class UsuarioService {
 
 
     public void salvar(Usuario usuario) {
+        Optional<Usuario> usuarioComCPF = usuarioRepository.produrarUsuarioPorCPF(usuario.getCpf());
+        Optional<Usuario> usuarioComEmail = usuarioRepository.produrarUsuarioPorEmail(usuario.getEmail());
+
+        if(usuarioComEmail.isPresent() && usuarioComCPF.isPresent()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "CPF e Email duplicados"
+            );
+        }
+
+        if(usuarioComCPF.isPresent()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "CPF duplicado"
+            );
+        }
+
+        if(usuarioComEmail.isPresent()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Email duplicado"
+            );
+        }
         usuarioRepository.save(usuario);
+    }
+
+    public Optional<Usuario> procurarPorID(Long id){
+        return usuarioRepository.findById(id);
     }
 
     public List<Usuario> procurarTodos() {
