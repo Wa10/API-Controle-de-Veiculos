@@ -1,4 +1,4 @@
-package com.desafio.controledeveiculos.controleveiculos.dto;
+package com.desafio.controledeveiculos.controleveiculos.dto.fipe;
 
 public class ModeloDTO {
 

@@ -1,4 +1,7 @@
-package com.desafio.controledeveiculos.controleveiculos.dto;
+package com.desafio.controledeveiculos.controleveiculos.dto.fipe;
+
+import com.desafio.controledeveiculos.controleveiculos.dto.fipe.AnoDTO;
+import com.desafio.controledeveiculos.controleveiculos.dto.fipe.ModeloDTO;
 
 import java.util.List;
 
