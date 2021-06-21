@@ -16,10 +16,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/listagem")
 public class ListagemVeiculosPorUsuarioController {
-
     private final UsuarioService usuarioService;
     private final VeiculoService veiculoService;
-
 
     public ListagemVeiculosPorUsuarioController(UsuarioService usuarioService, VeiculoService veiculoService) {
         this.usuarioService = usuarioService;
@@ -30,7 +28,6 @@ public class ListagemVeiculosPorUsuarioController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<VeiculosPorUsuarioDTO> listar(@PathVariable Long id){
         VeiculosPorUsuarioDTO listarVeiculosPorUsuario = new VeiculosPorUsuarioDTO();
-
         Optional<Usuario> usuario = usuarioService.procurarPorID(id);
 
         if(usuario.isPresent()) {
@@ -38,8 +35,8 @@ public class ListagemVeiculosPorUsuarioController {
 
             listarVeiculosPorUsuario.setUsuario(usuario.get());
             listarVeiculosPorUsuario.setVeiculosPorUsuario(v);
-
             return ResponseEntity.status(HttpStatus.OK).body(listarVeiculosPorUsuario);
+
         } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Usuario não encontrado"

@@ -1,7 +1,6 @@
 package com.desafio.controledeveiculos.controleveiculos.dto.fipe;
 
 public class DadosCompletosComValorDTO {
-
     private String Valor;
     private String Marca;
     private String Modelo;
@@ -12,8 +11,7 @@ public class DadosCompletosComValorDTO {
     private Integer TipoVeiculo;
     private String SiglaCombustivel;
 
-    public DadosCompletosComValorDTO() {
-    }
+    public DadosCompletosComValorDTO() { }
 
     public DadosCompletosComValorDTO(
             String valor, String marca, String modelo, Integer anoModelo,

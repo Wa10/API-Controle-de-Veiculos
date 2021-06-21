@@ -14,32 +14,21 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
-
     public void salvar(Usuario usuario) {
-        Optional<Usuario> usuarioComCPF = usuarioRepository.produrarUsuarioPorCPF(usuario.getCpf());
-        Optional<Usuario> usuarioComEmail = usuarioRepository.produrarUsuarioPorEmail(usuario.getEmail());
+        Optional<Usuario> usuarioComCPF = usuarioRepository.procurarUsuarioPorCPF(usuario.getCpf());
+        Optional<Usuario> usuarioComEmail = usuarioRepository.procurarUsuarioPorEmail(usuario.getEmail());
 
-        if(usuarioComEmail.isPresent() && usuarioComCPF.isPresent()){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "CPF e Email duplicados"
-            );
+        if(usuarioComEmail.isPresent() && usuarioComCPF.isPresent()){throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF e Email duplicados");
         }
 
-        if(usuarioComCPF.isPresent()){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "CPF duplicado"
-            );
+        if(usuarioComCPF.isPresent()){throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CPF duplicado");
         }
 
-        if(usuarioComEmail.isPresent()){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Email duplicado"
-            );
+        if(usuarioComEmail.isPresent()){throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email duplicado");
         }
         usuarioRepository.save(usuario);
     }
@@ -56,25 +45,17 @@ public class UsuarioService {
         usuarioRepository.findById(id)
                 .map(cliente -> {
                     usuarioRepository.delete(cliente);
-                    return Void.TYPE;
-                })
+                    return Void.TYPE; })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente com o id " + id + " não encontrado!"));
     }
-
 
     public void atualizar(Usuario usuario, Long id){
         usuarioRepository.findById(id)
                 .map(usuarioEncontrado -> {
-
                     usuarioEncontrado.setCpf(usuario.getCpf());
                     usuarioEncontrado.setEmail(usuario.getEmail());
-
-                    if(usuario.getDataNascimento() != null)
-                    usuarioEncontrado.setDataNascimento(usuario.getDataNascimento());
-
-                    if(usuario.getNome() != null){
-                        usuarioEncontrado.setNome(usuario.getNome());
-                    }
+                    if(usuario.getDataNascimento() != null) {usuarioEncontrado.setDataNascimento(usuario.getDataNascimento());}
+                    if(usuario.getNome() != null){usuarioEncontrado.setNome(usuario.getNome());}
 
                     return usuarioRepository.save(usuarioEncontrado);
                 })

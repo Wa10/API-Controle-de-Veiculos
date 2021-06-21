@@ -1,6 +1,4 @@
 package com.desafio.controledeveiculos.controleveiculos.consumoapifipe;
-
-
 import com.desafio.controledeveiculos.controleveiculos.dto.fipe.AnoDTO;
 import com.desafio.controledeveiculos.controleveiculos.dto.fipe.MarcaDTO;
 import com.desafio.controledeveiculos.controleveiculos.dto.fipe.ListaModelosEAnosDTO;
@@ -22,12 +20,11 @@ public interface ListarDadosFipe {
     ListaModelosEAnosDTO listarModelosPorMarca(@PathVariable("idMarca") String idMarca);
 
     @RequestMapping(method = RequestMethod.GET,value ="/{idMarca}/modelos/{idModelo}/anos")
-    List<AnoDTO> listarVeiculosPorAnosPorModeloEMarca(@RequestBody @PathVariable("idMarca") String id,
+    List<AnoDTO> listarVeiculosPorAnosPorModeloEMarca(@PathVariable("idMarca") String id,
                                                       @PathVariable("idModelo") String idModelo);
 
     @RequestMapping(method = RequestMethod.GET,value ="/{idMarca}/modelos/{idModelo}/anos/{idAno}")
-    String listarVeiculoCompleto(@RequestBody @PathVariable("idMarca") String id,
+    String listarVeiculoCompleto(@PathVariable("idMarca") String id,
                                 @PathVariable("idModelo") String idModelo,
                                 @PathVariable("idAno")String idAno);
-
 }

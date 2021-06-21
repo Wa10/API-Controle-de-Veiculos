@@ -20,7 +20,6 @@ import java.util.*;
 
 @Service
 public class VeiculoService {
-
     private final VeiculoRepository veiculoRepository;
     private final ListarDadosFipe listarDadosFipe;
     private final UsuarioRepository usuarioRepository;
@@ -35,16 +34,12 @@ public class VeiculoService {
         Veiculo veiculo = new Veiculo();
         String valor = retornarValorVeiculoFipe(veiculoDTO);
         String diaSemana = diaDoRodizio(veiculoDTO.getAnoVeiculo());
-
         veiculo.setMarca(veiculoDTO.getMarca());
         veiculo.setModeloVeiculo(veiculoDTO.getModeloVeiculo());
         veiculo.setAnoVeiculo(veiculoDTO.getAnoVeiculo());
         veiculo.setValor(valor);
         veiculo.setDiaRodizio(diaSemana);
-
         Long idUsuario = veiculoDTO.getIdUsuario();
-
-
 
         if(idUsuario != null){
             Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
@@ -56,7 +51,6 @@ public class VeiculoService {
                 );
             }
         }
-
         veiculoRepository.save(veiculo);
     }
 
@@ -71,8 +65,7 @@ public class VeiculoService {
 
         List<MarcaDTO> marcas = listarDadosFipe.listarMarcas();
 
-        Optional<MarcaDTO> marca = marcas
-                .stream()
+        Optional<MarcaDTO> marca = marcas.stream()
                 .filter(m -> m.getNome().equalsIgnoreCase(veiculoDTO.getMarca()))
                 .findFirst();
 
@@ -80,9 +73,7 @@ public class VeiculoService {
 
         List<ModeloDTO> modelosPorMarca = listarDadosFipe.listarModelosPorMarca(idMarca).getModelos();
 
-
-        Optional<ModeloDTO> modeloPorMarca = modelosPorMarca
-                .stream()
+        Optional<ModeloDTO> modeloPorMarca = modelosPorMarca.stream()
                 .filter(m -> m.getNome().equalsIgnoreCase(veiculoDTO.getModeloVeiculo()))
                 .findFirst();
 
@@ -101,13 +92,11 @@ public class VeiculoService {
 
         Gson conversorJson = new Gson();
         DadosCompletosComValorDTO dadoCompleto = conversorJson.fromJson(dadosEmJson, DadosCompletosComValorDTO.class);
-
         return dadoCompleto.getValor();
     }
 
     private String diaDoRodizio(String ano) {
         Character ultimoNumeroAno = ano.charAt(3);
-
 
         if (ultimoNumeroAno.equals('0') || ultimoNumeroAno.equals('1')) {
             return "segunda-feira";
@@ -121,7 +110,6 @@ public class VeiculoService {
             return "sexta-feira";
         }
     }
-
 
     public List<Veiculo> listarVeiculosPorUsuario(Long id){
         return veiculoRepository.listarVeiculosPorUsuario(id);
