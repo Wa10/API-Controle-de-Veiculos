@@ -1,8 +1,8 @@
 package com.desafio.controledeveiculos.controleveiculos.consumoapifipe;
 
 
-import com.desafio.controledeveiculos.controleveiculos.dto.MarcaDTO;
-import com.desafio.controledeveiculos.controleveiculos.dto.ListaModelosEAnosDTO;
+import com.desafio.controledeveiculos.controleveiculos.dto.fipe.MarcaDTO;
+import com.desafio.controledeveiculos.controleveiculos.dto.fipe.ListaModelosEAnosDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

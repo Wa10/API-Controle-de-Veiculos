@@ -19,20 +19,22 @@ public class Veiculo {
 
     private String valor;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @Column(name = "dia_rodizio")
+    private String diaRodizio;
+
+    private Long idUsuario;
 
     public Veiculo() {
     }
 
-    public Veiculo(Long id, String marca, String modeloVeiculo, String anoVeiculo, String valor, Usuario usuario) {
+    public Veiculo(Long id, String marca, String modeloVeiculo, String anoVeiculo, String valor,
+                   String diaRodizio) {
         this.id = id;
         this.marca = marca;
         this.modeloVeiculo = modeloVeiculo;
         this.anoVeiculo = anoVeiculo;
         this.valor = valor;
-        this.usuario = usuario;
+        this.diaRodizio = diaRodizio;
     }
 
     public Long getId() {
@@ -75,11 +77,19 @@ public class Veiculo {
         this.valor = valor;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getDiaRodizio() {
+        return diaRodizio;
+    }
+
+    public void setDiaRodizio(String diaRodizio) {
+        this.diaRodizio = diaRodizio;
     }
 }
